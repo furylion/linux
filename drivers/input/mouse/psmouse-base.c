@@ -726,6 +726,12 @@ static int psmouse_extensions(struct psmouse *psmouse,
 /* Always check for focaltech, this is safe as it uses pnp-id matching */
 	if (psmouse_do_detect(focaltech_detect, psmouse, set_properties) == 0) {
 		if (!set_properties || focaltech_init(psmouse) == 0) {
+			return PSMOUSE_FOCALTECH;
+		}
+	}
+	if (psmouse_do_detect(focaltech_detect_fallback,
+			      psmouse, set_properties) == 0) {
+		if (!set_properties || focaltech_init_fallback(psmouse) == 0) {
 			/*
 			 * Not supported yet, use bare protocol.
 			 * Note that we need to also restrict
@@ -1063,6 +1069,15 @@ static const struct psmouse_protocol psmouse_protocols[] = {
 		.alias		= "cortps",
 		.detect		= cortron_detect,
 	},
+#ifdef CONFIG_MOUSE_PS2_FOCALTECH
+	{
+		.type		= PSMOUSE_FOCALTECH,
+		.name		= "FocalTechPS/2",
+		.alias		= "focaltech",
+		.detect		= focaltech_detect,
+		.init		= focaltech_init,
+	},
+#endif
 	{
 		.type		= PSMOUSE_AUTO,
 		.name		= "auto",
