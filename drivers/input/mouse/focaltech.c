@@ -131,7 +131,7 @@ static void focaltech_report_state(struct psmouse *psmouse)
 		if (active) {
 			input_report_abs(dev, ABS_MT_POSITION_X, finger->x);
 			input_report_abs(dev, ABS_MT_POSITION_Y,
-					 FOC_MAX_Y - finger->y);
+					 priv->y_max - finger->y);
 		}
 	}
 	input_mt_report_pointer_emulation(dev, true);
