@@ -697,6 +697,8 @@ static void psmouse_apply_defaults(struct psmouse *psmouse)
 	psmouse->cleanup = NULL;
 	psmouse->pt_activate = NULL;
 	psmouse->pt_deactivate = NULL;
+
+	psmouse->skip_standard_init = false;
 }
 
 /*
@@ -1157,7 +1159,7 @@ static void psmouse_initialize(struct psmouse *psmouse)
  * We set the mouse report rate, resolution and scaling.
  */
 
-	if (psmouse_max_proto != PSMOUSE_PS2) {
+	if (psmouse_max_proto != PSMOUSE_PS2 && !psmouse->skip_standard_init) {
 		psmouse->set_rate(psmouse, psmouse->rate);
 		psmouse->set_resolution(psmouse, psmouse->resolution);
 		ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_SETSCALE11);

@@ -287,9 +287,6 @@ static int focaltech_switch_protocol(struct psmouse *psmouse)
 	if (ps2_command(ps2dev, param, PSMOUSE_CMD_SETSCALE11))
 		return -EIO;
 
-	if (ps2_command(ps2dev, param, PSMOUSE_CMD_ENABLE))
-		return -EIO;
-
 	return 0;
 }
 
@@ -415,6 +412,8 @@ int focaltech_init(struct psmouse *psmouse)
 	psmouse->cleanup = focaltech_reset;
 	/* resync is not supported yet */
 	psmouse->resync_time = 0;
+
+	psmouse->skip_standard_init = true;
 
 	return 0;
 

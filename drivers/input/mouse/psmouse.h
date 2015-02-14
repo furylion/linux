@@ -64,6 +64,11 @@ struct psmouse {
 	unsigned int resync_time;
 	bool smartscroll;	/* Logitech only */
 
+	/* FocalTech touchpads sometimes stop responding when standard commands
+	 * are sent after the custom protocol has been selected, so this flag
+	 * makes the code skip psmouse_initialize */
+	bool skip_standard_init;
+
 	psmouse_ret_t (*protocol_handler)(struct psmouse *psmouse);
 	void (*set_rate)(struct psmouse *psmouse, unsigned int rate);
 	void (*set_resolution)(struct psmouse *psmouse, unsigned int resolution);
